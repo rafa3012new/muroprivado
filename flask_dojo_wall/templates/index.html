@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block titulo %}Dashboard Principal{% endblock %}
+{% block contenido %}
+
+
+{% include '_menu.html' %}
+
+<div class="container">
+    <h1>Bienvenidos al Dashboard del Sistema : {{sistema}} </h1>
+
+    <hr>
+
+    <div class="row g-2 mt-4 " style="min-height:400px;">
+      <div class="col-md-12 col-lg-6 col-md mb-2 border">
+
+        <div class="p-3 mb-2 mrecibidos" style="min-height: 200px;">
+          <h2 style="color:rebeccapurple;">Mensajes Recibidos - {{datos_usuario.mensajes_recibidos|length}} msg. para ud.</h2>
+          <hr>
+          <h4><a href="#" onclick="ver_mensajes_enviados();">Ver mensajes Enviados</a></h4>
+          <hr>
+          {#Ciclo que se genera por usuario creado#}
+          {% for i in datos_usuario.mensajes_recibidos %}
+          <form action="{{url_for('eliminar_mensaje_recibido')}}" method="post">
+            <div class="d-flex justify-content-around" style="min-width:400px; max-width:500px; margin:0 auto 20px auto;">
+              <div>
+                <div style="width:400px;">
+                  <h6>hace {{i.tiempo_mensajes_recibidos}} <span style="font-size: 1.1em;">{{i.autor}}</span> dijo:</h6>
+                </div>
+                <div style="width:350px; margin-left:50px;">
+                  <h4>{{i.cuerpo}}</h4>
+                </div>
+              </div>
+              <div style="display:flex;">
+                  <input type="hidden" name="id" id="id" value="{{i.id}}">
+                  <input type="image" name="submit" onclick="return confirm('Desea eliminar el mensaje enviado por {{i.autor}}?')"  src="https://cdn-icons-png.flaticon.com/512/3405/3405244.png" alt="delete" style="width:35px; align-self:center;">
+              </div>
+            </div>
+          </form>
+          {% endfor %}
+        </div>
+
+
+
+        <div class="p-3 mb-2 menviados" style="min-height: 200px; display:none;">
+          <h3 style="color:rebeccapurple;">Mensajes Enviados - {{datos_usuario.mensajes_enviados|length}} msg. enviados por ud.</h3>
+          <hr>
+          <h4><a href="#" onclick="ver_mensajes_recibidos();">Ver mensajes recibidos</a></h4>
+          <hr>
+          {#Ciclo que se genera por usuario creado#}
+          {% for i in datos_usuario.mensajes_enviados %}
+          <form action="{{url_for('eliminar_mensaje_enviado')}}" method="post">
+            <div class="d-flex justify-content-around" style="min-width:400px; max-width:500px; margin:0 auto 20px auto;">
+              <div>
+                <div style="width:400px;">
+                  <h6>hace {{i.tiempo_mensajes_enviados}} se envio a <span style="font-size: 1.1em;">{{i.destinatario}}</span></h6>
+                </div>
+                <div style="width:350px; margin-left:50px;">
+                  <h4>{{i.cuerpo}}</h4>
+                </div>
+              </div>
+              <div style="display:flex;">
+                  <input type="hidden" name="id" id="id" value="{{i.id}}">
+                  <input type="image" name="submit" onclick="return confirm('Desea eliminar el mensaje enviado por {{i.autor}}?')"  src="https://cdn-icons-png.flaticon.com/512/3405/3405244.png" alt="delete" style="width:35px; align-self:center;">
+              </div>
+            </div>
+          </form>
+          {% endfor %}
+        </div>
+
+
+      </div>
+      <div class="col-md-12 col-lg-6 col-md mb-2 border">
+        
+        <div class="p-3 mb-2" style="min-height: 200px;">
+          <h2 style="color:rebeccapurple;">Enviar Mensajes</h2>
+          <hr>
+          <h4>Usted ha enviado {{datos_usuario.mensajes_enviados|length}} Mensajes</h4>
+          <hr>
+          {#Ciclo que segenera por usuario creado#}
+          {% for i in datos_otros_usuarios %}
+
+          <form action="{{url_for('procesar_mensaje')}}" method="post" >
+            <div class="d-flex justify-content-around border" style="min-width:400px; max-width:500px; margin:0 auto 20px auto; text-align:center;">
+              <label for="cuerpo" style="width:150px;">{{i.nombre}} {{i.apellido}}</label>
+              <textarea name="cuerpo" id="cuerpo{{i.usuario}}" cols="30" rows="4" style="resize:none;"></textarea>
+              <input class="form-control" type="hidden" name="idusuario" value="{{i.id}}">
+              <div ><button type="submit" class="btn btn-primary" style="width:100px;">Enviar</button></div>
+            </div>
+          </form>
+
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

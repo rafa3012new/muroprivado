@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block titulo %}Dashboard Principal{% endblock %}
+{% block contenido %}
+
+
+{% include '_menu.html' %}
+
+<div class="container">
+    <br>
+    <h1 style="color:Red">Alerta</h1>
+
+    <hr>
+
+    <div style="font-size: 1.1em;">
+        <p>Hmmm. El mensaje {{msgid}} no fue enviado por usted.</p>
+        <p>Por tanto no lo puede eliminar...</p>
+        <p>Esta intentando Hackear nuestro sitio?</p>
+        <br>
+        <p>Su direccion Ip es {{ipaddr}} , y ha sido almacenada...</p>
+        <br>
+        <p>La proxima vez intente realizar una actividad como esta</p>
+        <p>Se desconectara su sesion autmaticamente y</p>
+        <p>Reportaremos su direccion ip al sitio del administrador</p>
+        <br>
+    </div>
+    <div>
+        <p>Presione el Boton de inicio, para regresar...</p>
+    </div>
+</div>
+
+{% endblock %}
